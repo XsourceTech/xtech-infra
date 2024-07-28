@@ -1,0 +1,10 @@
+#variables values in prod env
+AZ_RESOURCE_GROUP_NAME = "rg-prod-xtech"
+ENVIRONMENT = "p"
+KV_NAME = "kv-prod-xtech"
+APP_INSIGHTS_NAME = "appins-prod-xtech"
+ENVIRONMENT_NAME = "Production"
+ENV_OWNER_GROUP_NAME = "AZR-XTECH-PROD-Owner"
+ENV_CONTRIBUTOR_GROUP_NAME = "AZR-XTECH-PROD-Contributor"
+SP_BACKEND_NAME = "sp-prod-xtech"
+SP_ENV = "AZR-XTECH-Builder-Production"

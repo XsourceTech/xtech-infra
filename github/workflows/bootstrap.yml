@@ -1,0 +1,87 @@
+---
+name: "🔥 Bootstrap Root Layer & Envs XTech"
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: environment-bootstrap
+
+env:
+  SP_CONTACT_EMAIL: fanganne113@gmail.com
+  RG_ROOT_NAME: root-xtech
+  TERRAFORM_VERSION: 1.9.3
+  RG_ROOT_LOCATION: northeurope
+  ROOT_RG_NAME: rg-root-xtech
+  ROOT_ST_NAME: strootxtech
+  ROOT_CT_NAME: ctrootxtech
+  ACR_LOGIN_SECRETNAME: ACR-LOGIN
+  ACR_SECRET_SECRETNAME: ACR-SECRET
+  ROOT_KV_NAME: kv-root-xtech
+  TERRAFORM_WORKING_DIRECTORY_BOOTSTRAP: "infrastructure/bootstrap"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy-root:
+    runs-on: ubuntu-latest
+    environment: root
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+    steps:
+      # Check out repository onto runner
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Login to Azure
+      - name: Authenticate to Azure
+        run: |
+          az login --service-principal -u ${{ secrets.ARM_CLIENT_ID }} -p ${{ secrets.ARM_CLIENT_SECRET }} --tenant ${{ secrets.ARM_TENANT_ID }} --output none
+          az account set --subscription ${{ secrets.ARM_SUBSCRIPTION_ID }}
+
+      # Create Azure Resource Group Root + Storage Account Root + Container Root
+      - name: Create Bootstrap root resources
+        shell: pwsh
+        run: |
+          ./.github/scripts/deploy-root.ps1 -PROJECT_NAME ${{ env.RG_ROOT_NAME }} -RESOURCE_GROUP_LOCATION ${{ env.RG_ROOT_LOCATION }}
+          
+  deploy-env-rg:
+    needs:
+      - deploy-root
+    runs-on: ubuntu-latest
+    environment: root
+    strategy:
+      matrix:
+        include:
+          - env: int
+            env_rg_name: int-xtech
+          - env: qualif
+            env_rg_name: qual-xtech
+          - env: prod
+            env_rg_name: prod-xtech
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Login with SP
+      - name: Authenticate to Azure
+        run: |
+          az login --service-principal -u ${{ secrets.ARM_CLIENT_ID }} -p ${{ secrets.ARM_CLIENT_SECRET }} --tenant ${{ secrets.ARM_TENANT_ID }} --output none
+          az account set --subscription ${{ secrets.ARM_SUBSCRIPTION_ID }}
+
+      # Create ENV Azure Resource Group Root + Storage Account Root + Container Root
+      - name: Create Bootstrap root resources
+        shell: pwsh
+        run: |
+          ./.github/scripts/deploy-root.ps1 -PROJECT_NAME ${{ matrix.env_rg_name }} -RESOURCE_GROUP_LOCATION ${{ env.RG_ROOT_LOCATION }}
+
+      - name: Make script executable
+        run: chmod +x ./.github/scripts/add-user-to-ad-group.sh
+

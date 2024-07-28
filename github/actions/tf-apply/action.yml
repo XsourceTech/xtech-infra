@@ -1,0 +1,76 @@
+name: '🚀 Terraform apply composite action'
+description: 'Composite action to run terraform apply command on the given layer'
+
+inputs:
+  terraform_version:
+    description: 'version of terraform to install'
+    required: true
+  environment:
+    description: 'name of the environment to create resources in'
+    required: true
+  resource_group_name:
+    description: 'name of the resource group to create resources in'
+    required: true
+  storage_account_name:
+    description: 'name of the storage account to store tfstate in'
+    required: true
+  container_name:
+    description: 'name of the container to store tfstate in'
+    required: true
+  layer:
+    description: 'name of the layer to run terraform apply in'
+    required: true
+  working_directory:
+    description: 'root path of tf layers (end without / ") bootstrap : infrastructure/bootstrap Infra root : infrastructure/root Infra envs : infrastructure/terraform/envs'
+    required: true
+  UNIVERSAL_GH_APP_PRIVATE_KEY:
+    description: ''
+    required: true
+  UNIVERSAL_GH_APP_ID:
+    description: ''
+    required: true
+  ARM_CLIENT_SECRET:
+    description: ''
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Install terrraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: ${{ inputs.terraform_version }}
+
+    - name: Generate token for GitHub App
+      id: generate-token
+      uses: getsentry/action-github-app-token@v1
+      with:
+        app_id: ${{ inputs.UNIVERSAL_GH_APP_ID }}
+        private_key: ${{ inputs.UNIVERSAL_GH_APP_PRIVATE_KEY }}
+
+    - name: Test Token from GitHub App
+      shell: bash
+      run: |
+        echo ${{ steps.generate-token.outputs.token }}
+
+    - name: Config GitHub over HTTPS
+      shell: bash
+      run: |
+        git config --global --replace-all url."https://foo:${GH_TOKEN}@github.com/XTech".insteadOf "ssh://git@github.com/XTech"
+      env:
+        GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+
+    - name: Terraform Init
+      shell: bash
+      run: |
+        terraform init -input=false \
+            -backend-config="resource_group_name=${{ inputs.resource_group_name }}" \
+            -backend-config="storage_account_name=${{ inputs.storage_account_name }}" \
+            -backend-config="container_name=${{ inputs.container_name }}" \
+            -backend-config="key=${{ inputs.environment }}/${{ inputs.layer }}.tfstate"
+      working-directory: ${{ inputs.working_directory }}/${{ inputs.layer }}
+
+    - name: Terraform Apply
+      shell: bash
+      run: terraform apply -auto-approve -var-file="vars/${{ inputs.environment }}.variables.tfvars" -var-file="../shared.variables/shared.variables.tfvars" -var-file="../shared.variables/${{ inputs.environment }}.shared.variables.tfvars" -var-file="../../shared.global.variables/shared.global.variables.tfvars" -var="ARM_CLIENT_SECRET= ${{ inputs.ARM_CLIENT_SECRET }}"
+      working-directory: ${{ inputs.working_directory }}/${{ inputs.layer }}
