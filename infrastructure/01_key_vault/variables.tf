@@ -17,16 +17,6 @@ variable "KV_NAME" {
   description = "The name of key vault"
 }
 
-variable "OWNER_GROUP_NAME" {
-    type = string
-    description = "The name of landing zone owner group"
-}
-
-variable "CONTRIBUTOR_GROUP_NAME" {
-    type = string
-    description = "The name of landing zone contributor group"
-}
-
 variable "ENV_OWNER_GROUP_NAME" {
     type = string
     description = "The name of landing zone owner group"

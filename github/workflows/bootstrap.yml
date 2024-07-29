@@ -10,17 +10,8 @@ concurrency:
   group: environment-bootstrap
 
 env:
-  SP_CONTACT_EMAIL: fanganne113@gmail.com
-  RG_ROOT_NAME: root-xtech
-  TERRAFORM_VERSION: 1.9.3
+  PROJECT_NAME: XTech
   RG_ROOT_LOCATION: northeurope
-  ROOT_RG_NAME: rg-root-xtech
-  ROOT_ST_NAME: strootxtech
-  ROOT_CT_NAME: ctrootxtech
-  ACR_LOGIN_SECRETNAME: ACR-LOGIN
-  ACR_SECRET_SECRETNAME: ACR-SECRET
-  ROOT_KV_NAME: kv-root-xtech
-  TERRAFORM_WORKING_DIRECTORY_BOOTSTRAP: "infrastructure/bootstrap"
 
 permissions:
   id-token: write
@@ -50,7 +41,7 @@ jobs:
       - name: Create Bootstrap root resources
         shell: pwsh
         run: |
-          ./.github/scripts/deploy-root.ps1 -PROJECT_NAME ${{ env.RG_ROOT_NAME }} -RESOURCE_GROUP_LOCATION ${{ env.RG_ROOT_LOCATION }}
+          ./.github/scripts/deploy-root.ps1 -PROJECT_NAME ${{ env.PROJECT_NAME }} -RESOURCE_GROUP_LOCATION ${{ env.RG_ROOT_LOCATION }}
           
   deploy-env-rg:
     needs:
@@ -61,11 +52,11 @@ jobs:
       matrix:
         include:
           - env: int
-            env_rg_name: int-xtech
+            env_rg_name: root-int-xtech
           - env: qualif
-            env_rg_name: qual-xtech
+            env_rg_name: root-qual-xtech
           - env: prod
-            env_rg_name: prod-xtech
+            env_rg_name: root-prod-xtech
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -76,11 +67,11 @@ jobs:
           az login --service-principal -u ${{ secrets.ARM_CLIENT_ID }} -p ${{ secrets.ARM_CLIENT_SECRET }} --tenant ${{ secrets.ARM_TENANT_ID }} --output none
           az account set --subscription ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
-      # Create ENV Azure Resource Group Root + Storage Account Root + Container Root
+      # Create ENV Azure Resource Group Env
       - name: Create Bootstrap root resources
         shell: pwsh
         run: |
-          ./.github/scripts/deploy-root.ps1 -PROJECT_NAME ${{ matrix.env_rg_name }} -RESOURCE_GROUP_LOCATION ${{ env.RG_ROOT_LOCATION }}
+          az group create --resource-group ${{ matrix.env_rg_name }} --location ${{ env.RG_ROOT_LOCATION }}
 
       - name: Make script executable
         run: chmod +x ./.github/scripts/add-user-to-ad-group.sh

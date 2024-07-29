@@ -12,22 +12,14 @@ data "azuread_service_principal" "service_principal_env" {
 }
 
 #AAD Group
-data "azuread_group" "aad_owner_group" {
-  display_name = var.OWNER_GROUP_NAME
-}
-
-data "azuread_group" "aad_contributor_group" {
-  display_name = var.CONTRIBUTOR_GROUP_NAME
-}
-
 data "azuread_service_principal" "sp_builder" {
   display_name = var.SERVICE_PRINCIPAL_BUILDER
 }
 
-data "azuread_group" "env_owner_group" {
-  display_name = var.ENV_OWNER_GROUP_NAME
-}
+# data "azuread_group" "env_owner_group" {
+#   display_name = var.ENV_OWNER_GROUP_NAME
+# }
 
-data "azuread_group" "env_contributor_group" {
-  display_name = var.ENV_CONTRIBUTOR_GROUP_NAME
-}
+# data "azuread_group" "env_contributor_group" {
+#   display_name = var.ENV_CONTRIBUTOR_GROUP_NAME
+# }

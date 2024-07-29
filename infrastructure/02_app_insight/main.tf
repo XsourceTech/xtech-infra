@@ -1,5 +1,4 @@
 locals {
-  l_app_code = "${lower(var.LZ_NAME)}"
   l_log_analytics_workspace_name = format("workspace-logs-%s-xtech", var.ENVIRONMENT)
 }
 

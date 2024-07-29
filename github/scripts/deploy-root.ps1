@@ -6,7 +6,7 @@ Param(
 
 $PROJECT_NAME = $PROJECT_NAME.ToLower()
 
-$RESOURCE_GROUP_NAME = "rg-$( $PROJECT_NAME )"
+$RESOURCE_GROUP_NAME = "rg-root-$( $PROJECT_NAME )"
 If ((az group list --query "[?name=='${RESOURCE_GROUP_NAME}']" | ConvertFrom-Json).length -eq 0)
 {
     Write-Host "Resource group named ${RESOURCE_GROUP_NAME} is creating..."
