@@ -21,7 +21,7 @@ inputs:
     description: 'name of the layer to run terraform apply in'
     required: true
   working_directory:
-    description: 'root path of tf layers (end without / ") bootstrap : infrastructure/bootstrap Infra root : infrastructure/root Infra envs : infrastructure/terraform/envs'
+    description: 'root path of tf layers (end without / ")'
     required: true
   UNIVERSAL_GH_APP_PRIVATE_KEY:
     description: ''
@@ -72,5 +72,5 @@ runs:
 
     - name: Terraform Apply
       shell: bash
-      run: terraform apply -auto-approve -var-file="vars/${{ inputs.environment }}.variables.tfvars" -var-file="../shared.variables/shared.variables.tfvars" -var-file="../shared.variables/${{ inputs.environment }}.shared.variables.tfvars" -var-file="../../shared.global.variables/shared.global.variables.tfvars" -var="ARM_CLIENT_SECRET= ${{ inputs.ARM_CLIENT_SECRET }}"
+      run: terraform apply -auto-approve -var-file="../shared.variables/shared.variables.tfvars" -var-file="../shared.variables/${{ inputs.environment }}.shared.variables.tfvars" -var="ARM_CLIENT_SECRET= ${{ inputs.ARM_CLIENT_SECRET }}"
       working-directory: ${{ inputs.working_directory }}/${{ inputs.layer }}

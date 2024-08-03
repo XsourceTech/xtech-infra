@@ -21,7 +21,7 @@ inputs:
     description: 'name of the layer to run terraform apply in'
     required: true
   working_directory:
-    description: 'root path of tf layers (end without / ") bootstrap : infrastructure/bootstrap Infra root : infrastructure/root Infra envs : infrastructure/envs'
+    description: 'root path of tf layers (end without / ")' 
     required: true
   UNIVERSAL_GH_APP_PRIVATE_KEY:
     description: ''
