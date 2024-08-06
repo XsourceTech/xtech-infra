@@ -51,7 +51,7 @@ jobs:
   #         resource_group_name : ${{ env.resource_group_name }}
 
   tf-deploy-infra-int:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     environment: int
 #    needs: renew_githubapp_token_int
     strategy:
