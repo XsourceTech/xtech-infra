@@ -52,7 +52,7 @@ jobs:
 
   tf-deploy-infra-int:
     runs-on: ubuntu-latest
-    environment: int
+    environment: Integration
 #    needs: renew_githubapp_token_int
     strategy:
       matrix:
