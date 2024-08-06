@@ -56,7 +56,7 @@ runs:
     - name: Config GitHub over HTTPS
       shell: bash
       run: |
-        git config --global --replace-all url."https://foo:${GH_TOKEN}@github.com/XTech".insteadOf "ssh://git@github.com/XTech"
+        git config --global --replace-all url."https://foo:${GH_TOKEN}@github.com/XsourceTech".insteadOf "ssh://git@github.com/XsourceTech"
       env:
         GH_TOKEN: ${{ steps.generate-token.outputs.token }}
 

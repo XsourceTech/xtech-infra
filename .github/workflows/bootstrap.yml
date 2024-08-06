@@ -52,11 +52,11 @@ jobs:
       matrix:
         include:
           - env: int
-            env_rg_name: root-int-xtech
+            env_rg_name: rg-int-xtech
           - env: qualif
-            env_rg_name: root-qual-xtech
+            env_rg_name: rg-qual-xtech
           - env: prod
-            env_rg_name: root-prod-xtech
+            env_rg_name: rg-prod-xtech
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -68,11 +68,8 @@ jobs:
           az account set --subscription ${{ secrets.ARM_SUBSCRIPTION_ID }}
 
       # Create ENV Azure Resource Group Env
-      - name: Create Bootstrap root resources
+      - name: Create Bootstrap env resources groups
         shell: pwsh
         run: |
           az group create --resource-group ${{ matrix.env_rg_name }} --location ${{ env.RG_ROOT_LOCATION }}
-
-      - name: Make script executable
-        run: chmod +x ./.github/scripts/add-user-to-ad-group.sh
 

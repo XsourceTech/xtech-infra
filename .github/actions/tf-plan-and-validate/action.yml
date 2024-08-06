@@ -55,7 +55,7 @@ runs:
     - name: Config GitHub over HTTPS
       shell: bash
       run: |
-        git config --global --replace-all url."https://foo:${GH_TOKEN}@github.com/XTech".insteadOf "ssh://git@github.com/XTech"
+        git config --global --replace-all url."https://foo:${GH_TOKEN}@github.com/XsourceTech".insteadOf "ssh://git@github.com/XsourceTech"
       env:
         GH_TOKEN: ${{ steps.generate-token.outputs.token }}
 
@@ -76,6 +76,6 @@ runs:
 
     - name: Terraform Plan
       shell: bash
-      run: terraform plan -input=false -var-file="vars/${{ inputs.environment }}.variables.tfvars" -var-file="../shared.variables/shared.variables.tfvars" -var-file="../shared.variables/${{ inputs.environment }}.shared.variables.tfvars" -var-file="../../shared.global.variables/shared.global.variables.tfvars" -var="ARM_CLIENT_SECRET=${{ inputs.ARM_CLIENT_SECRET }}"
+      run: terraform plan -input=false -var-file="../shared.variables/shared.variables.tfvars" -var-file="../shared.variables/${{ inputs.environment }}.shared.variables.tfvars" -var="ARM_CLIENT_SECRET=${{ inputs.ARM_CLIENT_SECRET }}"
       working-directory: ${{ inputs.working_directory }}/${{ inputs.layer }}
 

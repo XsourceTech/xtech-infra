@@ -18,55 +18,55 @@ permissions:
   contents: read
 
 jobs:
-  renew_githubapp_token_int:
-    runs-on: ubuntu-latest
-    environment: root
-    env:
-      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID_SP_ACR }}
-      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET_SP_ACR }}
-      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      CICD_GHAPP_RUNNER_GROUP_KEY: ${{ secrets.CICD_GHAPP_RUNNER_GROUP_KEY }}
-      CICD_GHAPP_RUNNER_GROUP_ID: ${{ secrets.CICD_GHAPP_RUNNER_GROUP_ID }}
-      resource_group_name : "rg-root-xtech"
-      GITHUB_PAT : "GITHUB-PAT"
-      WEBAPP_NAME: wb-root-runner-xtech
-    steps:
-      - uses: actions/checkout@v3
+  # renew_githubapp_token_int:
+  #   runs-on: ubuntu-latest
+  #   environment: root
+  #   env:
+  #     ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+  #     ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+  #     ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+  #     ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+  #     CICD_GHAPP_RUNNER_GROUP_KEY: ${{ secrets.CICD_GHAPP_RUNNER_GROUP_KEY }}
+  #     CICD_GHAPP_RUNNER_GROUP_ID: ${{ secrets.CICD_GHAPP_RUNNER_GROUP_ID }}
+  #     resource_group_name : "rg-root-xtech"
+  #     GITHUB_PAT : "GITHUB-PAT"
+  #     WEBAPP_NAME: wb-root-runner-xtech
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: 'Az CLI login'
-        uses: azure/login@v1.4.6
-        with:
-          client-id: ${{ env.ARM_CLIENT_ID }}
-          tenant-id: ${{ env.ARM_TENANT_ID }}
-          subscription-id: ${{ env.ARM_SUBSCRIPTION_ID }}
+  #     - name: 'Az CLI login'
+  #       uses: azure/login@v1.4.6
+  #       with:
+  #         client-id: ${{ env.ARM_CLIENT_ID }}
+  #         tenant-id: ${{ env.ARM_TENANT_ID }}
+  #         subscription-id: ${{ env.ARM_SUBSCRIPTION_ID }}
 
-      - name: renew github token
-        uses: ./.github/actions/renew_githubapp_token
-        with:
-          ROOT_KV_NAME: ${{ env.ROOT_KV_NAME }}
-          CICD_GHAPP_RUNNER_GROUP_KEY: ${{ env.CICD_GHAPP_RUNNER_GROUP_KEY }}
-          CICD_GHAPP_RUNNER_GROUP_ID: ${{ env.CICD_GHAPP_RUNNER_GROUP_ID }}
-          GITHUB_PAT : ${{ env.GITHUB_PAT }}
-          resource_group_name : ${{ env.resource_group_name }}
+  #     - name: renew github token
+  #       uses: ./.github/actions/renew_githubapp_token
+  #       with:
+  #         ROOT_KV_NAME: ${{ env.ROOT_KV_NAME }}
+  #         CICD_GHAPP_RUNNER_GROUP_KEY: ${{ env.CICD_GHAPP_RUNNER_GROUP_KEY }}
+  #         CICD_GHAPP_RUNNER_GROUP_ID: ${{ env.CICD_GHAPP_RUNNER_GROUP_ID }}
+  #         GITHUB_PAT : ${{ env.GITHUB_PAT }}
+  #         resource_group_name : ${{ env.resource_group_name }}
 
   tf-deploy-infra-int:
     runs-on: self-hosted
     environment: int
-    needs: renew_githubapp_token_int
+#    needs: renew_githubapp_token_int
     strategy:
       matrix:
 #        layer: ['01_key_vault', '02_app_insight', '03_managed_identity', '04_container_registry', '05_app_container', '06_postgresql', '07_milvus', '08_frontdoor', "09_subnet"]
-        layer: ['01_key_vault', '02_app_insight', '03_managed_identity', '04_container_registry']
+        layer: ['01_key_vault', '02_app_insight', '04_container_registry']
       max-parallel: 1
     env:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      RG_NAME: "rg-int-xtech"
-      ST_NAME: "stintxtech"
-      CT_NAME: "ctintxtech"
+      RG_NAME: "rg-root-xtech"
+      ST_NAME: "strootxtech"
+      CT_NAME: "ctrootxtech"
 
     steps:
       - uses: actions/checkout@v3
@@ -105,180 +105,180 @@ jobs:
           UNIVERSAL_GH_APP_PRIVATE_KEY: ${{ secrets.UNIVERSAL_GH_APP_PRIVATE_KEY }}
           UNIVERSAL_GH_APP_ID: ${{ secrets.UNIVERSAL_GH_APP_ID }}
 
-  renew_githubapp_token_qual:
-    runs-on: ubuntu-latest
-    environment: root
-    needs: tf-deploy-infra-int
-    env:
-      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID_SP_ACR }}
-      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET_SP_ACR }}
-      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      CICD_GHAPP_RUNNER_GROUP_KEY: ${{ secrets.CICD_GHAPP_RUNNER_GROUP_KEY }}
-      CICD_GHAPP_RUNNER_GROUP_ID: ${{ secrets.CICD_GHAPP_RUNNER_GROUP_ID }}
-      ROOT_KV_NAME : "kv-root-xtech"
-      resource_group_name : "rg-root-xtech"
-      GITHUB_PAT : "GITHUB-PAT"
-      WEBAPP_NAME: wb-root-runner-xtech
-    steps:
-      - uses: actions/checkout@v3
+#   renew_githubapp_token_qual:
+#     runs-on: ubuntu-latest
+#     environment: root
+#     needs: tf-deploy-infra-int
+#     env:
+#       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID_SP_ACR }}
+#       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET_SP_ACR }}
+#       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+#       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+#       CICD_GHAPP_RUNNER_GROUP_KEY: ${{ secrets.CICD_GHAPP_RUNNER_GROUP_KEY }}
+#       CICD_GHAPP_RUNNER_GROUP_ID: ${{ secrets.CICD_GHAPP_RUNNER_GROUP_ID }}
+#       ROOT_KV_NAME : "kv-root-xtech"
+#       resource_group_name : "rg-root-xtech"
+#       GITHUB_PAT : "GITHUB-PAT"
+#       WEBAPP_NAME: wb-root-runner-xtech
+#     steps:
+#       - uses: actions/checkout@v3
 
-      - name: 'Az CLI login'
-        uses: azure/login@v1.4.6
-        with:
-          client-id: ${{ env.ARM_CLIENT_ID }}
-          tenant-id: ${{ env.ARM_TENANT_ID }}
-          subscription-id: ${{ env.ARM_SUBSCRIPTION_ID }}
+#       - name: 'Az CLI login'
+#         uses: azure/login@v1.4.6
+#         with:
+#           client-id: ${{ env.ARM_CLIENT_ID }}
+#           tenant-id: ${{ env.ARM_TENANT_ID }}
+#           subscription-id: ${{ env.ARM_SUBSCRIPTION_ID }}
 
-      - name: renew github token
-        uses: ./.github/actions/renew_githubapp_token
-        with:
-          ROOT_KV_NAME: ${{ env.ROOT_KV_NAME }}
-          CICD_GHAPP_RUNNER_GROUP_KEY: ${{ env.CICD_GHAPP_RUNNER_GROUP_KEY }}
-          CICD_GHAPP_RUNNER_GROUP_ID: ${{ env.CICD_GHAPP_RUNNER_GROUP_ID }}
-          GITHUB_PAT : ${{ env.GITHUB_PAT }}
-          resource_group_name : ${{ env.resource_group_name }}
+#       - name: renew github token
+#         uses: ./.github/actions/renew_githubapp_token
+#         with:
+#           ROOT_KV_NAME: ${{ env.ROOT_KV_NAME }}
+#           CICD_GHAPP_RUNNER_GROUP_KEY: ${{ env.CICD_GHAPP_RUNNER_GROUP_KEY }}
+#           CICD_GHAPP_RUNNER_GROUP_ID: ${{ env.CICD_GHAPP_RUNNER_GROUP_ID }}
+#           GITHUB_PAT : ${{ env.GITHUB_PAT }}
+#           resource_group_name : ${{ env.resource_group_name }}
 
-  tf-deploy-infra-qualif:
-    runs-on: self-hosted
-    environment: qualif
-    needs: renew_githubapp_token_qual
-    strategy:
-      matrix:
-#        layer: ['01_key_vault', '02_app_insight', '03_managed_identity', '04_container_registry', '05_app_container', '06_postgresql', '07_milvus', '08_frontdoor', "09_subnet"]
-        layer: ['01_key_vault', '02_app_insight', '03_managed_identity', '04_container_registry']
-      max-parallel: 1
-    env:
-      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      RG_NAME: "rg-qual-xtech"
-      ST_NAME: "stqualxtech"
-      CT_NAME: "ctqualxtech"
+#   tf-deploy-infra-qualif:
+#     runs-on: self-hosted
+#     environment: qualif
+#     needs: renew_githubapp_token_qual
+#     strategy:
+#       matrix:
+# #        layer: ['01_key_vault', '02_app_insight', '03_managed_identity', '04_container_registry', '05_app_container', '06_postgresql', '07_milvus', '08_frontdoor', "09_subnet"]
+#         layer: ['01_key_vault', '02_app_insight', '04_container_registry']
+#       max-parallel: 1
+#     env:
+#       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+#       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+#       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+#       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+#       RG_NAME: "rg-qual-xtech"
+#       ST_NAME: "stqualxtech"
+#       CT_NAME: "ctqualxtech"
       
-    steps:
-      - uses: actions/checkout@v3
+#     steps:
+#       - uses: actions/checkout@v3
 
-      - name: terraform plan and validate
-        uses: ./.github/actions/tf-plan-and-validate
-        with:
-          terraform_version: ${{ env.TERRAFORM_VERSION }}
-          environment: qualif
-          resource_group_name: ${{ env.RG_NAME }}
-          storage_account_name: ${{ env.ST_NAME }}
-          container_name: ${{ env.CT_NAME }}
-          layer: ${{ matrix.layer }}
-          working_directory: ${{ env.TERRAFORM_WORKING_DIRECTORY_ENVS }}
-          UNIVERSAL_GH_APP_PRIVATE_KEY: ${{ env.UNIVERSAL_GH_APP_PRIVATE_KEY }}
-          UNIVERSAL_GH_APP_ID: ${{ env.UNIVERSAL_GH_APP_ID }}
-          ARM_CLIENT_SECRET: ${{ env.ARM_CLIENT_SECRET }}
-        env:
-          UNIVERSAL_GH_APP_PRIVATE_KEY: ${{ secrets.UNIVERSAL_GH_APP_PRIVATE_KEY }}
-          UNIVERSAL_GH_APP_ID: ${{ secrets.UNIVERSAL_GH_APP_ID }}
+#       - name: terraform plan and validate
+#         uses: ./.github/actions/tf-plan-and-validate
+#         with:
+#           terraform_version: ${{ env.TERRAFORM_VERSION }}
+#           environment: qualif
+#           resource_group_name: ${{ env.RG_NAME }}
+#           storage_account_name: ${{ env.ST_NAME }}
+#           container_name: ${{ env.CT_NAME }}
+#           layer: ${{ matrix.layer }}
+#           working_directory: ${{ env.TERRAFORM_WORKING_DIRECTORY_ENVS }}
+#           UNIVERSAL_GH_APP_PRIVATE_KEY: ${{ env.UNIVERSAL_GH_APP_PRIVATE_KEY }}
+#           UNIVERSAL_GH_APP_ID: ${{ env.UNIVERSAL_GH_APP_ID }}
+#           ARM_CLIENT_SECRET: ${{ env.ARM_CLIENT_SECRET }}
+#         env:
+#           UNIVERSAL_GH_APP_PRIVATE_KEY: ${{ secrets.UNIVERSAL_GH_APP_PRIVATE_KEY }}
+#           UNIVERSAL_GH_APP_ID: ${{ secrets.UNIVERSAL_GH_APP_ID }}
 
-      - name: terraform apply
-        uses: ./.github/actions/tf-apply
-        with:
-          terraform_version: ${{ env.TERRAFORM_VERSION }}
-          environment: qualif
-          resource_group_name: ${{ env.RG_NAME }}
-          storage_account_name: ${{ env.ST_NAME }}
-          container_name: ${{ env.CT_NAME }}
-          layer: ${{ matrix.layer }}
-          working_directory: ${{ env.TERRAFORM_WORKING_DIRECTORY_ENVS }}
-          UNIVERSAL_GH_APP_PRIVATE_KEY: ${{ env.UNIVERSAL_GH_APP_PRIVATE_KEY }}
-          UNIVERSAL_GH_APP_ID: ${{ env.UNIVERSAL_GH_APP_ID }}
-          ARM_CLIENT_SECRET: ${{ env.ARM_CLIENT_SECRET }}
-        env:
-          UNIVERSAL_GH_APP_PRIVATE_KEY: ${{ secrets.UNIVERSAL_GH_APP_PRIVATE_KEY }}
-          UNIVERSAL_GH_APP_ID: ${{ secrets.UNIVERSAL_GH_APP_ID }}
+#       - name: terraform apply
+#         uses: ./.github/actions/tf-apply
+#         with:
+#           terraform_version: ${{ env.TERRAFORM_VERSION }}
+#           environment: qualif
+#           resource_group_name: ${{ env.RG_NAME }}
+#           storage_account_name: ${{ env.ST_NAME }}
+#           container_name: ${{ env.CT_NAME }}
+#           layer: ${{ matrix.layer }}
+#           working_directory: ${{ env.TERRAFORM_WORKING_DIRECTORY_ENVS }}
+#           UNIVERSAL_GH_APP_PRIVATE_KEY: ${{ env.UNIVERSAL_GH_APP_PRIVATE_KEY }}
+#           UNIVERSAL_GH_APP_ID: ${{ env.UNIVERSAL_GH_APP_ID }}
+#           ARM_CLIENT_SECRET: ${{ env.ARM_CLIENT_SECRET }}
+#         env:
+#           UNIVERSAL_GH_APP_PRIVATE_KEY: ${{ secrets.UNIVERSAL_GH_APP_PRIVATE_KEY }}
+#           UNIVERSAL_GH_APP_ID: ${{ secrets.UNIVERSAL_GH_APP_ID }}
 
-  renew_githubapp_token_prod:
-    runs-on: ubuntu-latest
-    environment: root
-    needs: tf-deploy-infra-qualif
-    env:
-      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID_SP_ACR }}
-      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET_SP_ACR }}
-      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      CICD_GHAPP_RUNNER_GROUP_KEY: ${{ secrets.CICD_GHAPP_RUNNER_GROUP_KEY }}
-      CICD_GHAPP_RUNNER_GROUP_ID: ${{ secrets.CICD_GHAPP_RUNNER_GROUP_ID }}
-      ROOT_KV_NAME : "kv-root-xtech"
-      resource_group_name : "rg-root-xtech"
-      GITHUB_PAT : "GITHUB-PAT"
-      WEBAPP_NAME: wb-root-runner-xtech
-    steps:
-      - uses: actions/checkout@v3
+#   renew_githubapp_token_prod:
+#     runs-on: ubuntu-latest
+#     environment: root
+#     needs: tf-deploy-infra-qualif
+#     env:
+#       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID_SP_ACR }}
+#       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET_SP_ACR }}
+#       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+#       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+#       CICD_GHAPP_RUNNER_GROUP_KEY: ${{ secrets.CICD_GHAPP_RUNNER_GROUP_KEY }}
+#       CICD_GHAPP_RUNNER_GROUP_ID: ${{ secrets.CICD_GHAPP_RUNNER_GROUP_ID }}
+#       ROOT_KV_NAME : "kv-root-xtech"
+#       resource_group_name : "rg-root-xtech"
+#       GITHUB_PAT : "GITHUB-PAT"
+#       WEBAPP_NAME: wb-root-runner-xtech
+#     steps:
+#       - uses: actions/checkout@v3
 
-      - name: 'Az CLI login'
-        uses: azure/login@v1.4.6
-        with:
-          client-id: ${{ env.ARM_CLIENT_ID }}
-          tenant-id: ${{ env.ARM_TENANT_ID }}
-          subscription-id: ${{ env.ARM_SUBSCRIPTION_ID }}
+#       - name: 'Az CLI login'
+#         uses: azure/login@v1.4.6
+#         with:
+#           client-id: ${{ env.ARM_CLIENT_ID }}
+#           tenant-id: ${{ env.ARM_TENANT_ID }}
+#           subscription-id: ${{ env.ARM_SUBSCRIPTION_ID }}
 
-      - name: renew github token
-        uses: ./.github/actions/renew_githubapp_token
-        with:
-          ROOT_KV_NAME: ${{ env.ROOT_KV_NAME }}
-          CICD_GHAPP_RUNNER_GROUP_KEY: ${{ env.CICD_GHAPP_RUNNER_GROUP_KEY }}
-          CICD_GHAPP_RUNNER_GROUP_ID: ${{ env.CICD_GHAPP_RUNNER_GROUP_ID }}
-          GITHUB_PAT : ${{ env.GITHUB_PAT }}
-          resource_group_name : ${{ env.resource_group_name }}
+#       - name: renew github token
+#         uses: ./.github/actions/renew_githubapp_token
+#         with:
+#           ROOT_KV_NAME: ${{ env.ROOT_KV_NAME }}
+#           CICD_GHAPP_RUNNER_GROUP_KEY: ${{ env.CICD_GHAPP_RUNNER_GROUP_KEY }}
+#           CICD_GHAPP_RUNNER_GROUP_ID: ${{ env.CICD_GHAPP_RUNNER_GROUP_ID }}
+#           GITHUB_PAT : ${{ env.GITHUB_PAT }}
+#           resource_group_name : ${{ env.resource_group_name }}
 
-  tf-deploy-infra-prod:
-    runs-on: self-hosted
-    environment: prod
-    needs: renew_githubapp_token_prod
-    strategy:
-      matrix:
-#        layer: ['01_key_vault', '02_app_insight', '03_managed_identity', '04_container_registry', '05_app_container', '06_postgresql', '07_milvus', '08_frontdoor', "09_subnet"]
-        layer: ['01_key_vault', '02_app_insight', '03_managed_identity', '04_container_registry']
-      max-parallel: 1
-    env:
-      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-      RG_NAME: "rg-prod-xtech"
-      ST_NAME: "stprodxtech"
-      CT_NAME: "ctprodxtech"
+#   tf-deploy-infra-prod:
+#     runs-on: self-hosted
+#     environment: prod
+#     needs: renew_githubapp_token_prod
+#     strategy:
+#       matrix:
+# #        layer: ['01_key_vault', '02_app_insight', '03_managed_identity', '04_container_registry', '05_app_container', '06_postgresql', '07_milvus', '08_frontdoor', "09_subnet"]
+#         layer: ['01_key_vault', '02_app_insight', '03_managed_identity', '04_container_registry']
+#       max-parallel: 1
+#     env:
+#       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+#       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+#       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+#       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+#       RG_NAME: "rg-prod-xtech"
+#       ST_NAME: "stprodxtech"
+#       CT_NAME: "ctprodxtech"
 
-    steps:
-      - uses: actions/checkout@v3
+#     steps:
+#       - uses: actions/checkout@v3
 
-      - name: terraform plan and validate
-        uses: ./.github/actions/tf-plan-and-validate
-        with:
-          terraform_version: ${{ env.TERRAFORM_VERSION }}
-          environment: prod
-          resource_group_name: ${{ env.RG_NAME }}
-          storage_account_name: ${{ env.ST_NAME }}
-          container_name: ${{ env.CT_NAME }}
-          layer: ${{ matrix.layer }}
-          working_directory: ${{ env.TERRAFORM_WORKING_DIRECTORY_ENVS }}
-          UNIVERSAL_GH_APP_PRIVATE_KEY: ${{ env.UNIVERSAL_GH_APP_PRIVATE_KEY }}
-          UNIVERSAL_GH_APP_ID: ${{ env.UNIVERSAL_GH_APP_ID }}
-          ARM_CLIENT_SECRET: ${{ env.ARM_CLIENT_SECRET }}
-        env:
-          UNIVERSAL_GH_APP_PRIVATE_KEY: ${{ secrets.UNIVERSAL_GH_APP_PRIVATE_KEY }}
-          UNIVERSAL_GH_APP_ID: ${{ secrets.UNIVERSAL_GH_APP_ID }}
+#       - name: terraform plan and validate
+#         uses: ./.github/actions/tf-plan-and-validate
+#         with:
+#           terraform_version: ${{ env.TERRAFORM_VERSION }}
+#           environment: prod
+#           resource_group_name: ${{ env.RG_NAME }}
+#           storage_account_name: ${{ env.ST_NAME }}
+#           container_name: ${{ env.CT_NAME }}
+#           layer: ${{ matrix.layer }}
+#           working_directory: ${{ env.TERRAFORM_WORKING_DIRECTORY_ENVS }}
+#           UNIVERSAL_GH_APP_PRIVATE_KEY: ${{ env.UNIVERSAL_GH_APP_PRIVATE_KEY }}
+#           UNIVERSAL_GH_APP_ID: ${{ env.UNIVERSAL_GH_APP_ID }}
+#           ARM_CLIENT_SECRET: ${{ env.ARM_CLIENT_SECRET }}
+#         env:
+#           UNIVERSAL_GH_APP_PRIVATE_KEY: ${{ secrets.UNIVERSAL_GH_APP_PRIVATE_KEY }}
+#           UNIVERSAL_GH_APP_ID: ${{ secrets.UNIVERSAL_GH_APP_ID }}
 
-      - name: terraform apply
-        uses: ./.github/actions/tf-apply
-        with:
-          terraform_version: ${{ env.TERRAFORM_VERSION }}
-          environment: prod
-          resource_group_name: ${{ env.RG_NAME }}
-          storage_account_name: ${{ env.ST_NAME }}
-          container_name: ${{ env.CT_NAME }}
-          layer: ${{ matrix.layer }}
-          working_directory: ${{ env.TERRAFORM_WORKING_DIRECTORY_ENVS }}
-          UNIVERSAL_GH_APP_PRIVATE_KEY: ${{ env.UNIVERSAL_GH_APP_PRIVATE_KEY }}
-          UNIVERSAL_GH_APP_ID: ${{ env.UNIVERSAL_GH_APP_ID }}
-          ARM_CLIENT_SECRET: ${{ env.ARM_CLIENT_SECRET }}
-        env:
-          UNIVERSAL_GH_APP_PRIVATE_KEY: ${{ secrets.UNIVERSAL_GH_APP_PRIVATE_KEY }}
-          UNIVERSAL_GH_APP_ID: ${{ secrets.UNIVERSAL_GH_APP_ID }}
+#       - name: terraform apply
+#         uses: ./.github/actions/tf-apply
+#         with:
+#           terraform_version: ${{ env.TERRAFORM_VERSION }}
+#           environment: prod
+#           resource_group_name: ${{ env.RG_NAME }}
+#           storage_account_name: ${{ env.ST_NAME }}
+#           container_name: ${{ env.CT_NAME }}
+#           layer: ${{ matrix.layer }}
+#           working_directory: ${{ env.TERRAFORM_WORKING_DIRECTORY_ENVS }}
+#           UNIVERSAL_GH_APP_PRIVATE_KEY: ${{ env.UNIVERSAL_GH_APP_PRIVATE_KEY }}
+#           UNIVERSAL_GH_APP_ID: ${{ env.UNIVERSAL_GH_APP_ID }}
+#           ARM_CLIENT_SECRET: ${{ env.ARM_CLIENT_SECRET }}
+#         env:
+#           UNIVERSAL_GH_APP_PRIVATE_KEY: ${{ secrets.UNIVERSAL_GH_APP_PRIVATE_KEY }}
+#           UNIVERSAL_GH_APP_ID: ${{ secrets.UNIVERSAL_GH_APP_ID }}
