@@ -25,3 +25,12 @@ variable "CONTAINER_REGISTRY_NAME" {
 variable "SERVICE_PRINCIPAL_BUILDER" {
   type = string
 }
+
+variable "ARM_CLIENT_SECRET" {
+  type = string
+  sensitive = true
+}
+
+variable "ARM_SUBSCRIPTION_ID" {
+  type = string
+}
