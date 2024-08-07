@@ -1,4 +1,5 @@
-SERVICE_PRINCIPAL_BUILDER = "AZR-XTech-Builder"
+# SERVICE_PRINCIPAL_BUILDER = "AZR-XTech-Builder"
+SERVICE_PRINCIPAL_BUILDER = "xtech-app"
 # OWNER_GROUP_NAME = "AZR-XTech-Owner"
 # CONTRIBUTOR_GROUP_NAME = "AZR-XTech-Contributor"
 # BACK_MI_NAME = "back-managed-identity"
