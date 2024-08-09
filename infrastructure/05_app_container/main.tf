@@ -9,20 +9,18 @@ resource "azurerm_service_plan" "appserviceplan" {
   resource_group_name = data.azurerm_resource_group.rg.name
   os_type = "Linux"
   sku_name = "S1"
-  reserved = true
-
 }
 
 # Create an Azure Web App for Containers in that App Service Plan
-resource "azurerm_linux_web_app" "dockerapp" {
+resource "azurerm_linux_web_app" "backend" {
   depends_on = [
-    azurerm_app_service_plan.appserviceplan
+    azurerm_service_plan.appserviceplan
   ]
 
   name                = local.l_web_app_name
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
-  service_plan_id     = azurerm_app_service_plan.appserviceplan.id
+  service_plan_id     = azurerm_service_plan.appserviceplan.id
 
   
   # Configure Docker Image to load on start
