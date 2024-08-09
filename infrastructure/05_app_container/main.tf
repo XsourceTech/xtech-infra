@@ -12,7 +12,7 @@ resource "azurerm_service_plan" "appserviceplan" {
 }
 
 # Create an Azure Web App for Containers in that App Service Plan
-resource "azurerm_linux_web_app" "dockerapp" {
+resource "azurerm_linux_web_app" "backend" {
   depends_on = [
     azurerm_service_plan.appserviceplan
   ]
