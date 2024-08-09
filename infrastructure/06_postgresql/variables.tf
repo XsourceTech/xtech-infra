@@ -128,9 +128,9 @@ variable "ENVIRONMENT" {
   type = string
 }
 
-variable "APP_CODE" {
-  type = string
-}
+# variable "APP_CODE" {
+#   type = string
+# }
 
 # variable "VNET_NAME" {
 #   type = string
