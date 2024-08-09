@@ -27,13 +27,13 @@ resource "azurerm_linux_web_app" "dockerapp" {
   
   # Configure Docker Image to load on start
   site_config {
-    linux_fx_version = "DOCKER|<user/image:tag>"
     always_on        = "true"
+    health_check_path = "/api/v1/health"
 
     application_stack {
-        docker_registry_url = ""
-        docker_registry_username = ""
-        docker_registry_password = ""
+        docker_registry_url = "https://${data.azurerm_container_registry.acr.login_server}"
+        docker_registry_username = "${data.azurerm_container_registry.acr.admin_username}"
+        docker_registry_password = "${data.azurerm_container_registry.acr.admin_password}"
   }
   }
 

@@ -57,7 +57,7 @@ jobs:
     strategy:
       matrix:
 #        layer: ['01_key_vault', '02_app_insight', '03_managed_identity', '04_container_registry', '05_app_container', '06_postgresql', '07_milvus', '08_frontdoor', "09_subnet"]
-        layer: ['01_key_vault', '02_app_insight', '04_container_registry', '06_postgresql']
+        layer: ['01_key_vault', '02_app_insight', '04_container_registry', '05_app_container', '06_postgresql']
       max-parallel: 1
     env:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
