@@ -10,3 +10,8 @@ variable "ENVIRONMENT" {
   description = "Code of the environment. d - p"
   type        = string
 }
+
+variable "CONTAINER_REGISTRY_NAME" {
+  type = string
+  description = "Name of ACR Env"
+}
