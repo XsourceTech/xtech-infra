@@ -11,9 +11,9 @@ data "azurerm_key_vault" "kv" {
   resource_group_name = data.azurerm_resource_group.rg.name
 }
 
-data "azuread_group" "env_contributor_group" {
-  display_name = var.ENV_CONTRIBUTOR_GROUP_NAME
-}
+# data "azuread_group" "env_contributor_group" {
+#   display_name = var.ENV_CONTRIBUTOR_GROUP_NAME
+# }
 
 # data "azurerm_resource_group" "rg_vnet" {
 #   name = var.RG_NETWORK_NAME
