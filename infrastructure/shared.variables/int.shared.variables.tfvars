@@ -9,3 +9,5 @@ ENVIRONMENT_NAME = "Integration"
 # SP_BACKEND_NAME = "sp-int-xtech"
 SP_ENV_INT = "AZR-XTECH-Builder-Integration"
 CONTAINER_REGISTRY_NAME = "acrintxtech"
+PSQL_NAME = "psql-i-xtech"
+
