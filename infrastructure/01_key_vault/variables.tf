@@ -12,6 +12,11 @@ variable "KV_NAME" {
   description = "The name of key vault"
 }
 
+variable "SERVICE_PRINCIPAL_BUILDER" {
+  type = string
+  description = "SP Builder"
+}
+
 # variable "ENV_OWNER_GROUP_NAME" {
 #     type = string
 #     description = "The name of landing zone owner group"
