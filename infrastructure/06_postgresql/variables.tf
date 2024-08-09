@@ -57,14 +57,14 @@ variable "AUTO_GROW_ENABLED" {
   default = true
 }
 
-variable "ENV_CONTRIBUTOR_GROUP_NAME" {
-  type = string
-}
+# variable "ENV_CONTRIBUTOR_GROUP_NAME" {
+#   type = string
+# }
 
 variable "PG_DBNAME" {
   type        = string
   description = "Postgre database name"
-  default     = "sefa_database"
+  default     = "xsource_db"
 }
 
 variable "DB_CHARSET" {
@@ -79,41 +79,41 @@ variable "DB_COLLATION" {
   default     = "English_United States.1252"
 }
 
-variable "BACKEND_DB_PRIVILEGES_GRANTED" {
-  type        = set(string)
-  description = "Privileges granted for backend application to the database"
-  default     = ["CREATE", "CONNECT", "TEMPORARY"]
-}
+# variable "BACKEND_DB_PRIVILEGES_GRANTED" {
+#   type        = set(string)
+#   description = "Privileges granted for backend application to the database"
+#   default     = ["CREATE", "CONNECT", "TEMPORARY"]
+# }
 
-variable "BACKEND_SCHEMA_PRIVILEGES_GRANTED" {
-  type        = set(string)
-  description = "Privileges granted for backend application to schema"
-  default     = ["CREATE", "USAGE"]
-}
+# variable "BACKEND_SCHEMA_PRIVILEGES_GRANTED" {
+#   type        = set(string)
+#   description = "Privileges granted for backend application to schema"
+#   default     = ["CREATE", "USAGE"]
+# }
 
-variable "BACKEND_TABLE_PRIVILEGES_GRANTED" {
-  type        = set(string)
-  description = "Privileges granted for backend application to tables"
-  default     = ["SELECT", "UPDATE", "INSERT", "DELETE"]
-}
+# variable "BACKEND_TABLE_PRIVILEGES_GRANTED" {
+#   type        = set(string)
+#   description = "Privileges granted for backend application to tables"
+#   default     = ["SELECT", "UPDATE", "INSERT", "DELETE"]
+# }
 
-variable "BACKEND_SEQUENCE_PRIVILEGES_GRANTED" {
-  type        = set(string)
-  description = "Privileges granted for backend application to tables sequences"
-  default     = ["SELECT", "UPDATE", "USAGE"]
-}
+# variable "BACKEND_SEQUENCE_PRIVILEGES_GRANTED" {
+#   type        = set(string)
+#   description = "Privileges granted for backend application to tables sequences"
+#   default     = ["SELECT", "UPDATE", "USAGE"]
+# }
 
-variable "DATA_DB_PRIVILEGES_GRANTED" {
-  type        = set(string)
-  description = "Privileges granted for read-only user to the database"
-  default     = ["CONNECT"]
-}
+# variable "DATA_DB_PRIVILEGES_GRANTED" {
+#   type        = set(string)
+#   description = "Privileges granted for read-only user to the database"
+#   default     = ["CONNECT"]
+# }
 
-variable "DATA_TABLE_PRIVILEGES_GRANTED" {
-  type        = set(string)
-  description = "Privileges granted for read-only user to tables"
-  default     = ["SELECT"]
-}
+# variable "DATA_TABLE_PRIVILEGES_GRANTED" {
+#   type        = set(string)
+#   description = "Privileges granted for read-only user to tables"
+#   default     = ["SELECT"]
+# }
 
 variable "ARM_CLIENT_SECRET" {
   type = string
@@ -132,22 +132,22 @@ variable "APP_CODE" {
   type = string
 }
 
-variable "VNET_NAME" {
-  type = string
-}
+# variable "VNET_NAME" {
+#   type = string
+# }
 
-variable "RG_NETWORK_NAME" {
-  type = string
-}
+# variable "RG_NETWORK_NAME" {
+#   type = string
+# }
 
-variable "DNS_PUBLIC_NAME" {
-  type = string
-}
+# variable "DNS_PUBLIC_NAME" {
+#   type = string
+# }
 
-variable "RG_PUBLIC_DNS_ZONE_NAME" {
-  type = string
-}
+# variable "RG_PUBLIC_DNS_ZONE_NAME" {
+#   type = string
+# }
 
-variable "PSQL_DNS_A_RECORD_NAME" {
-  type = string
-}
+# variable "PSQL_DNS_A_RECORD_NAME" {
+#   type = string
+# }
