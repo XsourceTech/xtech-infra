@@ -15,3 +15,8 @@ variable "CONTAINER_REGISTRY_NAME" {
   type = string
   description = "Name of ACR Env"
 }
+
+variable "ARM_CLIENT_SECRET" {
+  type = string
+  sensitive = true
+}
