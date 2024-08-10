@@ -34,7 +34,6 @@ resource "azurerm_linux_web_app" "backend" {
         docker_registry_url = "https://${data.azurerm_container_registry.acr.login_server}"
         docker_registry_username = "${data.azurerm_container_registry.acr.admin_username}"
         docker_registry_password = "${data.azurerm_container_registry.acr.admin_password}"
-        python_version = "3.12"
   }
   }
 
