@@ -21,6 +21,7 @@ resource "azurerm_linux_web_app" "backend" {
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
   service_plan_id     = azurerm_service_plan.appserviceplan.id
+  https_only = true
 
   
   # Configure Docker Image to load on start
@@ -29,6 +30,7 @@ resource "azurerm_linux_web_app" "backend" {
     health_check_path = "/api/v1/health"
 
     application_stack {
+        docker_image_name = "nginx:latest"
         docker_registry_url = "https://${data.azurerm_container_registry.acr.login_server}"
         docker_registry_username = "${data.azurerm_container_registry.acr.admin_username}"
         docker_registry_password = "${data.azurerm_container_registry.acr.admin_password}"
