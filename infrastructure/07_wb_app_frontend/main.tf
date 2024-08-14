@@ -51,7 +51,7 @@ resource "azurerm_dns_cname_record" "example" {
     azurerm_dns_zone.xsource
   ]
   name                = var.FRONTEND_DNS_RECORD_NAME
-  zone_name           = data.azurerm_dns_zone.xsource.name
+  zone_name           = azurerm_dns_zone.xsource.name
   resource_group_name = data.azurerm_resource_group.rg_root.name
   ttl                 = 3600
 
