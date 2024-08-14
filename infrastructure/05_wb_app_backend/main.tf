@@ -4,7 +4,8 @@ locals {
 
   ##### CORS - A list of origins which should be able to make cross-origin calls. * can be used to allow all calls.#####
   l_web_frontend_url = format("%s%s%s", "https://frontend-",var.ENVIRONMENT,"-xtech.azurewebsites.net")
-  l_frontend_url = format("%s%s%s", "https://xsource-", var.ENVIRONMENT, ".cloud.net")
+  l_frontend_url = format("%s%s", var.FRONTEND_DNS_RECORD_NAME, var.DNS_ZONE_NAME)
+  
   l_cors_allowed_origins = ["https://localhost:8080",local.l_frontend_url, local.l_web_frontend_url]
 }
 

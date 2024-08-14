@@ -26,3 +26,11 @@ variable "CORS_SUPPORT_CREDENTIALS" {
   type        = bool
   default     = true
 }
+
+variable "DNS_ZONE_NAME" {
+  type = string
+}
+
+variable "FRONTEND_DNS_RECORD_NAME" {
+  type = string  
+}
