@@ -1,7 +1,6 @@
 
 locals {
   l_app_service_plan_name = format("asp-%s-xtech", var.ENVIRONMENT)
-  l_web_app_name = format("wb-%s-xtech", var.ENVIRONMENT)
   l_frontend_app_name = format("frontend-%s-xtech", var.ENVIRONMENT)
 
   l_front_dns_record_name = format("xsource-%s.frontend", var.ENVIRONMENT)
