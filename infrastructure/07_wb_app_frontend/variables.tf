@@ -6,6 +6,10 @@ variable "AZ_RESOURCE_GROUP_NAME" {
   type = string
 }
 
+variable "AZ_RESOURCE_GROUP_ROOT_NAME" {
+  type = string
+}
+
 variable "ENVIRONMENT" {
   description = "Code of the environment. d - p"
   type        = string
