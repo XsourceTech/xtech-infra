@@ -3,7 +3,7 @@ locals {
   l_web_app_name = format("wb-%s-xtech", var.ENVIRONMENT)
 
   ##### CORS - A list of origins which should be able to make cross-origin calls. * can be used to allow all calls.#####
-  l_web_frontend_url = format("%s%s%s", "https://xtech",var.ENVIRONMENT,"frontend.web.core.windows.net")
+  l_web_frontend_url = format("%s%s%s", "https://frontend-",var.ENVIRONMENT,"-xtech.azurewebsites.net")
   l_frontend_url = format("%s%s%s", "https://xsource-", var.ENVIRONMENT, ".cloud.net")
   l_cors_allowed_origins = ["https://localhost:8080",local.l_frontend_url, local.l_web_frontend_url]
 }
