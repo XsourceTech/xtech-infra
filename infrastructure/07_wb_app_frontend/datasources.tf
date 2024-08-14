@@ -17,5 +17,5 @@ data "azurerm_service_plan" "asp" {
 }
 
 data "azurerm_resource_group" "rg_root" {
-  name = var.AZ_RESOURCE_GROUP_NAME
+  name = var.AZ_RESOURCE_GROUP_ROOT_NAME
 }
