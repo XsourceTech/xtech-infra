@@ -24,3 +24,7 @@ variable "ARM_CLIENT_SECRET" {
   type = string
   sensitive = true
 }
+
+variable "FRONTEND_DNS_RECORD_NAME" {
+  type = string
+}

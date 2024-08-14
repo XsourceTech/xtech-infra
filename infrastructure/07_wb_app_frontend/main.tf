@@ -2,9 +2,6 @@
 locals {
   l_app_service_plan_name = format("asp-%s-xtech", var.ENVIRONMENT)
   l_frontend_app_name = format("frontend-%s-xtech", var.ENVIRONMENT)
-
-  l_front_dns_record_name = format("xsource-%s.frontend", var.ENVIRONMENT)
-
 }
 
 # ==============================================================================
@@ -39,18 +36,27 @@ resource "azurerm_linux_web_app" "frontend" {
 
 
 # ==============================================================================
-# CREATE DNS CNAME RECORD FOR STATIC WEBAPP
+# CREATE DNS ZONE IN RG ROOT
 # # ==============================================================================
-# resource "azurerm_dns_cname_record" "cname_record_static_webapp" {
-#   depends_on = [
-#     azurerm_linux_web_app.frontend
-#   ]
+resource "azurerm_dns_zone" "xsource" {
+  name                = "xsource.com"
+  resource_group_name = data.azurerm_resource_group.rg_root.name
+}
 
-#   name = local.l_front_dns_record_name
-#   zone_name = data.azurerm_dns_zone.dns_zone_xsource.name
-#   resource_group_name = data.azurerm_resource_group.rg_root.name
-#   ttl = 3600
-#   target_resource_id = azurerm_linux_web_app.frontend.id
+# ==============================================================================
+# CREATE DNS CNAME RECORD FOR FRONTEND
+# # ==============================================================================
+resource "azurerm_dns_cname_record" "example" {
+  depends_on = [
+    azurerm_dns_zone.xsource
+  ]
+  name                = var.FRONTEND_DNS_RECORD_NAME
+  zone_name           = data.azurerm_dns_zone.xsource.name
+  resource_group_name = data.azurerm_resource_group.rg_root.name
+  ttl                 = 3600
 
-#   tags = data.azurerm_resource_group.rg.tags
-# }
+  target_resource_id = azurerm_linux_web_app.frontend.id
+
+  tags = data.azurerm_resource_group.rg.tags
+}
+

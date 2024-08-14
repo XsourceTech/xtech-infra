@@ -11,3 +11,4 @@ SP_ENV_INT = "AZR-XTECH-Builder-Integration"
 CONTAINER_REGISTRY_NAME = "acrixtech"
 PSQL_NAME = "psql-i-xtech"
 
+FRONTEND_DNS_RECORD_NAME = "mypaper-i"
