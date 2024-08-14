@@ -1,8 +1,16 @@
 locals {
   l_app_service_plan_name = format("asp-%s-xtech", var.ENVIRONMENT)
   l_web_app_name = format("wb-%s-xtech", var.ENVIRONMENT)
+
+  ##### CORS - A list of origins which should be able to make cross-origin calls. * can be used to allow all calls.#####
+  l_web_frontend_url = format("%s%s%s", "https://xtech",var.ENVIRONMENT,"frontend.web.core.windows.net")
+  l_frontend_url = format("%s%s%s", "https://xsource-", var.ENVIRONMENT, ".cloud.net")
+  l_cors_allowed_origins = ["https://localhost:8080",local.l_frontend_url, local.l_web_frontend_url]
 }
+
+# ==============================================================================
 # Create an App Service Plan with Linux
+# ==============================================================================
 resource "azurerm_service_plan" "appserviceplan" {
   name                = local.l_app_service_plan_name
   location            = data.azurerm_resource_group.rg.location
@@ -11,7 +19,9 @@ resource "azurerm_service_plan" "appserviceplan" {
   sku_name = "S1"
 }
 
-# Create an Azure Web App for Containers in that App Service Plan
+# ==============================================================================
+# Create an Backend Azure Web App for Containers in that App Service Plan
+# ==============================================================================
 resource "azurerm_linux_web_app" "backend" {
   depends_on = [
     azurerm_service_plan.appserviceplan
@@ -28,6 +38,13 @@ resource "azurerm_linux_web_app" "backend" {
   site_config {
     always_on        = "true"
     health_check_path = "/api/v1/health"
+    http2_enabled = true
+    minimum_tls_version = 1.2
+
+    cors {
+      allowed_origins = local.l_cors_allowed_origins
+      support_credentials = var.CORS_SUPPORT_CREDENTIALS
+    }
 
     application_stack {
         docker_image_name = "nginx:latest"
