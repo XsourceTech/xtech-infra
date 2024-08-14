@@ -46,7 +46,7 @@ resource "azurerm_dns_zone" "xsource" {
 # ==============================================================================
 # CREATE DNS CNAME RECORD FOR FRONTEND
 # # ==============================================================================
-resource "azurerm_dns_cname_record" "example" {
+resource "azurerm_dns_cname_record" "frontend_dns_a_record" {
   depends_on = [
     azurerm_dns_zone.xsource
   ]
@@ -55,7 +55,7 @@ resource "azurerm_dns_cname_record" "example" {
   resource_group_name = data.azurerm_resource_group.rg_root.name
   ttl                 = 3600
 
-  target_resource_id = azurerm_linux_web_app.frontend.id
+  target_resource_id = azurerm_linux_web_app.frontend.default_hostname
 
   tags = data.azurerm_resource_group.rg.tags
 }
