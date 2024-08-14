@@ -55,8 +55,8 @@ resource "azurerm_dns_cname_record" "frontend_dns_a_record" {
   resource_group_name = data.azurerm_resource_group.rg_root.name
   ttl                 = 3600
 
-  target_resource_id = azurerm_linux_web_app.frontend.default_hostname
-
+  record              = azurerm_linux_web_app.frontend.default_hostname
+  
   tags = data.azurerm_resource_group.rg.tags
 }
 
