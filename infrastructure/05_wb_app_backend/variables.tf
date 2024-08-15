@@ -7,7 +7,7 @@ variable "AZ_RESOURCE_GROUP_NAME" {
 }
 
 variable "ENVIRONMENT" {
-  description = "Code of the environment. d - p"
+  description = "Code of the environment. i - p"
   type        = string
 }
 
@@ -33,4 +33,14 @@ variable "DNS_ZONE_NAME" {
 
 variable "FRONTEND_DNS_RECORD_NAME" {
   type = string  
+}
+
+variable "CONTAINER_IMAGE" {
+  description = "The container image name"
+  type        = string  
+}
+
+variable "CONTAINER_IMAGE_TAG" {
+  description = "The container image tag"
+  type        = string  
 }

@@ -4,7 +4,7 @@ variable "AZ_RESOURCE_GROUP_NAME" {
 }
 
 variable "ENVIRONMENT" {
-  description = "Code of the environment. d - p"
+  description = "Code of the environment. i - p"
   type        = string
 }
 

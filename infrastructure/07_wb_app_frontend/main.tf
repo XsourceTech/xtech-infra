@@ -5,7 +5,7 @@ locals {
 }
 
 # ==============================================================================
-# Create an Backend Azure Web App for Containers in that App Service Plan
+# Create a Frontend Azure Web App for Containers
 # ==============================================================================
 resource "azurerm_linux_web_app" "frontend" {
   name                = local.l_frontend_app_name
@@ -23,6 +23,7 @@ resource "azurerm_linux_web_app" "frontend" {
 
     application_stack {
         docker_image_name = "nginx:latest"
+#        docker_image_name = "${data.azurerm_container_registry.acr.login_server}/${var.CONTAINER_IMAGE}:${var.CONTAINER_IMAGE_TAG}"
         docker_registry_url = "https://${data.azurerm_container_registry.acr.login_server}"
         docker_registry_username = "${data.azurerm_container_registry.acr.admin_username}"
         docker_registry_password = "${data.azurerm_container_registry.acr.admin_password}"
@@ -32,8 +33,13 @@ resource "azurerm_linux_web_app" "frontend" {
   identity {
     type = "SystemAssigned"
   }
-}
 
+  lifecycle {
+    ignore_changes = [
+      site_config[0].application_stack[0].docker_image_name
+    ]
+  }   
+}
 
 # ==============================================================================
 # CREATE DNS ZONE IN RG ROOT
@@ -60,3 +66,14 @@ resource "azurerm_dns_cname_record" "frontend_dns_a_record" {
   tags = data.azurerm_resource_group.rg.tags
 }
 
+# ==============================================================================
+# Continuous Deployment
+# ==============================================================================
+resource "azurerm_role_assignment" "acr_pull" {
+  depends_on = [
+    azurerm_linux_web_app.frontend
+  ]  
+  principal_id   = azurerm_linux_web_app.frontend.identity.principal_id
+  role_definition_name = "AcrPull"
+  scope          = data.azurerm_container_registry.acr.id
+}
