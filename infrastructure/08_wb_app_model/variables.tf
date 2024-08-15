@@ -6,10 +6,6 @@ variable "AZ_RESOURCE_GROUP_NAME" {
   type = string
 }
 
-variable "AZ_RESOURCE_GROUP_ROOT_NAME" {
-  type = string
-}
-
 variable "ENVIRONMENT" {
   description = "Code of the environment. i - p"
   type        = string
@@ -23,8 +19,4 @@ variable "CONTAINER_REGISTRY_NAME" {
 variable "ARM_CLIENT_SECRET" {
   type = string
   sensitive = true
-}
-
-variable "FRONTEND_DNS_RECORD_NAME" {
-  type = string
 }

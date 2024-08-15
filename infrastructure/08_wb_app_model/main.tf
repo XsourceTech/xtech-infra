@@ -1,37 +1,17 @@
+
 locals {
   l_app_service_plan_name = format("asp-%s-xtech", var.ENVIRONMENT)
-  l_web_app_name = format("wb-%s-xtech", var.ENVIRONMENT)
-
-  ##### CORS - A list of origins which should be able to make cross-origin calls. * can be used to allow all calls.#####
-  l_web_frontend_url = format("%s%s%s", "https://frontend-",var.ENVIRONMENT,"-xtech.azurewebsites.net")
-  l_frontend_url = format("%s%s", var.FRONTEND_DNS_RECORD_NAME, var.DNS_ZONE_NAME)
-  
-  l_cors_allowed_origins = ["https://localhost:8080",local.l_frontend_url, local.l_web_frontend_url]
+  l_model_app_name = format("model-%s-xtech", var.ENVIRONMENT)
 }
 
 # ==============================================================================
-# Create an App Service Plan with Linux
+# Create a Model Azure Web App for Containers 
 # ==============================================================================
-resource "azurerm_service_plan" "appserviceplan" {
-  name                = local.l_app_service_plan_name
+resource "azurerm_linux_web_app" "model" {
+  name                = local.l_model_app_name
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
-  os_type = "Linux"
-  sku_name = "S1"
-}
-
-# ==============================================================================
-# Create an Backend Azure Web App for Containers in that App Service Plan
-# ==============================================================================
-resource "azurerm_linux_web_app" "backend" {
-  depends_on = [
-    azurerm_service_plan.appserviceplan
-  ]
-
-  name                = local.l_web_app_name
-  location            = data.azurerm_resource_group.rg.location
-  resource_group_name = data.azurerm_resource_group.rg.name
-  service_plan_id     = azurerm_service_plan.appserviceplan.id
+  service_plan_id     = data.azurerm_service_plan.asp.id
   https_only = true
 
   
@@ -41,11 +21,6 @@ resource "azurerm_linux_web_app" "backend" {
     health_check_path = "/api/v1/health"
     http2_enabled = true
     minimum_tls_version = 1.2
-
-    cors {
-      allowed_origins = local.l_cors_allowed_origins
-      support_credentials = var.CORS_SUPPORT_CREDENTIALS
-    }
 
     application_stack {
         docker_image_name = "nginx:latest"
@@ -72,9 +47,9 @@ resource "azurerm_linux_web_app" "backend" {
 # ==============================================================================
 resource "azurerm_role_assignment" "acr_pull" {
   depends_on = [
-    azurerm_linux_web_app.backend
+    azurerm_linux_web_app.model
   ]  
-  principal_id   = azurerm_linux_web_app.backend.identity.principal_id
+  principal_id   = azurerm_linux_web_app.model.identity.principal_id
   role_definition_name = "AcrPull"
   scope          = data.azurerm_container_registry.acr.id
 }
