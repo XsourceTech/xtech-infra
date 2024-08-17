@@ -35,12 +35,14 @@ variable "FRONTEND_DNS_RECORD_NAME" {
   type = string  
 }
 
-# variable "CONTAINER_IMAGE" {
-#   description = "The container image name"
-#   type        = string  
-# }
+variable "CONTAINER_IMAGE_BACKEND" {
+  description = "The container image name"
+  type        = string  
+}
 
-# variable "CONTAINER_IMAGE_TAG" {
-#   description = "The container image tag"
-#   type        = string  
-# }
+variable "CONTAINER_IMAGE_TAG_BACKEND" {
+  description = "The container image tag"
+  type        = string  
+}
+
+

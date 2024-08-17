@@ -48,8 +48,7 @@ resource "azurerm_linux_web_app" "backend" {
     }
 
     application_stack {
-        docker_image_name = "nginx:latest"
-#        docker_image_name = "${data.azurerm_container_registry.acr.login_server}/${var.CONTAINER_IMAGE}:${var.CONTAINER_IMAGE_TAG}"
+        docker_image_name = "${data.azurerm_container_registry.acr.login_server}/${var.CONTAINER_IMAGE_BACKEND}:${var.CONTAINER_IMAGE_TAG_BACKEND}"
         docker_registry_url = "https://${data.azurerm_container_registry.acr.login_server}"
         docker_registry_username = "${data.azurerm_container_registry.acr.admin_username}"
         docker_registry_password = "${data.azurerm_container_registry.acr.admin_password}"

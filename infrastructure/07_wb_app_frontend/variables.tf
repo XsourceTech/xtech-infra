@@ -34,7 +34,7 @@ variable "CONTAINER_IMAGE_FRONTEND" {
   description = "Container image name"
 }
 
-variable "CONTAINER_IMAGE_TAG" {
+variable "CONTAINER_IMAGE_TAG_FRONTEND" {
   type = string
   description = "Container image tag"  
 }

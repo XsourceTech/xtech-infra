@@ -56,8 +56,7 @@ jobs:
 #    needs: renew_githubapp_token_int
     strategy:
       matrix:
-#        layer: ['01_key_vault', '02_app_insight', '04_container_registry', '05_wb_app_backend', '06_postgresql', '07_wb_app_frontend', '08_wb_app_model']
-        layer: ['07_wb_app_frontend', '08_wb_app_model']
+        layer: ['01_key_vault', '02_app_insight', '04_container_registry', '05_wb_app_backend', '06_postgresql', '07_wb_app_frontend', '08_wb_app_model']
       max-parallel: 1
     env:
       ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
