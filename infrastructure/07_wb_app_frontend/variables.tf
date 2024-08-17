@@ -28,3 +28,13 @@ variable "ARM_CLIENT_SECRET" {
 variable "FRONTEND_DNS_RECORD_NAME" {
   type = string
 }
+
+variable "CONTAINER_IMAGE_FRONTEND" {
+  type = string
+  description = "Container image name"
+}
+
+variable "CONTAINER_IMAGE_TAG" {
+  type = string
+  description = "Container image tag"  
+}

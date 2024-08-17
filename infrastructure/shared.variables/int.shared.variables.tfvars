@@ -12,3 +12,4 @@ CONTAINER_REGISTRY_NAME = "acrixtech"
 PSQL_NAME = "psql-i-xtech"
 
 FRONTEND_DNS_RECORD_NAME = "mypaper-i"
+CONTAINER_IMAGE_TAG = "1.2.1"
