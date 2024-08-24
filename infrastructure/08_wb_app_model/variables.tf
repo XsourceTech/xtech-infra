@@ -20,3 +20,13 @@ variable "ARM_CLIENT_SECRET" {
   type = string
   sensitive = true
 }
+
+variable "CONTAINER_IMAGE_MODEL" {
+  type = string
+  description = "Container image name"
+}
+
+variable "CONTAINER_IMAGE_TAG_MODEL" {
+  type = string
+  description = "Container image tag"  
+}
