@@ -41,13 +41,13 @@ resource "azurerm_key_vault" "key_vault" {
   #   certificate_permissions = ["Get", "List", "Update", "Import", "Delete", "Purge"]
   # }
 
-  # access_policy {
-  #   object_id = data.azuread_group.env_contributor_group.object_id
-  #   tenant_id = data.azurerm_client_config.current.tenant_id
-  #   key_permissions         = ["Get", "List", "Create"]
-  #   secret_permissions      = ["Get", "List", "Set", "Delete", "Backup", "Restore", "Recover", "Purge"]
-  #   storage_permissions     = ["Get", "List"]
-  #   certificate_permissions = ["Get", "List", "Update", "Import", "Delete", "Purge"]
-  # }
+  access_policy {
+    object_id = data.azuread_group.xtech_contributor_group.object_id
+    tenant_id = data.azurerm_client_config.current.tenant_id
+    key_permissions         = ["Get", "List", "Create"]
+    secret_permissions      = ["Get", "List", "Set", "Delete", "Backup", "Restore", "Recover", "Purge"]
+    storage_permissions     = ["Get", "List"]
+    certificate_permissions = ["Get", "List", "Update", "Import", "Delete", "Purge"]
+  }
 
 }

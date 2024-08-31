@@ -22,10 +22,10 @@ variable "SERVICE_PRINCIPAL_BUILDER" {
 #     description = "The name of landing zone owner group"
 # }
 
-# variable "ENV_CONTRIBUTOR_GROUP_NAME" {
-#     type = string
-#     description = "The name of landing zone contributor group"
-# }
+variable "XTECH_CONTRIBUTOR_GROUP_NAME" {
+    type = string
+    description = "The name of contributor group"
+}
 
 variable "ARM_CLIENT_SECRET" {
   type = string

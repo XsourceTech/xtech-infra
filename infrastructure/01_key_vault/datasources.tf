@@ -20,6 +20,6 @@ data "azuread_service_principal" "service_principal_builder" {
 #   display_name = var.ENV_OWNER_GROUP_NAME
 # }
 
-# data "azuread_group" "env_contributor_group" {
-#   display_name = var.ENV_CONTRIBUTOR_GROUP_NAME
-# }
+data "azuread_group" "xtech_contributor_group" {
+  display_name = var.XTECH_CONTRIBUTOR_GROUP_NAME
+}
