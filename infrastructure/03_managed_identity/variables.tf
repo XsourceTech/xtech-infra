@@ -6,11 +6,11 @@ variable "KV_NAME" {
   type = string
 }
 
-variable "BACK_MI_NAME" {
+variable "MODEL_MI_NAME" {
   type = string
 }
 
-variable "BACK_MI_KV_SECRET_NAME" {
+variable "MODEL_MI_KV_SECRET_NAME" {
   type = string
 }
 

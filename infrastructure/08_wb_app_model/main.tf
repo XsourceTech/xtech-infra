@@ -31,7 +31,10 @@ resource "azurerm_linux_web_app" "model" {
   }
 
   identity {
-    type = "SystemAssigned"
+    type = "SystemAssigned, UserAssigned"
+    identity_ids = [
+      data.azurerm_user_assigned_identity.user_ai_model.id,
+    ]
   }
 
   lifecycle {

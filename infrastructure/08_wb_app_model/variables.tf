@@ -30,3 +30,7 @@ variable "CONTAINER_IMAGE_TAG_MODEL" {
   type = string
   description = "Container image tag"  
 }
+
+variable "MODEL_MI_NAME" {
+  type = string  
+}
